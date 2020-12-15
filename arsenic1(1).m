@@ -1,10 +1,10 @@
 function f=arsenic1 (ini)
 
-load('expt.mat')
-experi=exp(:,6);                                % y variable
+load('expt.mat','exp')
+experi=exp(:,end);                                % y variable
 c0_inlet=5000;                                  % (initial conc in ppm)
-L=0.2;                                       %input('enter the length of column (m) : ');
-Q_inlet=43.2;                                %input('enter the flowrate (LPD) : ');
+L=8;                                       %input('enter the length of column (m) : ');
+Q_inlet=4.2;                                %input('enter the flowrate (LPD) : ');
 
 Q=Q_inlet*(10^-3)/(24*3600);    % flow rate in m3/sec
 c0=c0_inlet*(10^-3);            % inlet conc in Kg/m3
@@ -55,7 +55,7 @@ zi=3*Bi*neta*(1-eb)/eb;             % dimensionless group zi
     x=linspace(0,1,l_n);
     t=linspace(0,tou,t_n);
     u3=pdepe(m,@system2,@initial1,@bc1,x,t);
-    cb=u3(:,end,1);
+    cb=u3(:,end,end);
     m1=2;
     for i=1:1:l_n
     cp=pdepe(m1,@system3,@initial2,@bc2,x,t);
@@ -63,16 +63,16 @@ zi=3*Bi*neta*(1-eb)/eb;             % dimensionless group zi
     cpf(:,i)=cpf_1(:,end);
     end
       f=0;
-      for y=5:1:t_n
+      for y=1:1:37
           f=f+(((experi(y)-cpf(y))/cpf(y))^2);
      end
 %     display(error1);
 
 
 figure
-plot(Cexp,texp,'O')
+%plot(t_n,f,'O')
 hold on
-plot(t*L/(v*3600),cp(:,end))
+plot(t*L/(v*3600),cb(:,end))
 title('plot of conc');
 xlabel('time (hours)');
 ylabel('C/C0');
@@ -124,7 +124,7 @@ end
 function [p1,q1,pr,qr]=bc2(x1,u1,xr,ur,t)
 p1=0;
 q1=1;
-pr=-Bi*(u3(round(((t/tou))*(t_n-1)+0.5),round(((x/1))*(l_n-1)+0.5))-ur);
+pr=-Bi*(cb(round(((t/tou))*(t_n-1)+0.5),round(((x1/1))*(l_n-1)+0.5))-ur);
 qr=1;
 end
 
