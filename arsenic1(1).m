@@ -96,7 +96,7 @@ xlim([0 100]);
 function [c,b,s]=system2(x,t,u,DuDx)
 c=1;
 b=DuDx/Pe;
-s=-(DuDx*(1+(1/(x*Pe)))+zi*(u-cpr(round(((t/tou))*(t_n-1)+0.5),round(((x/1))*(l_n-1)+0.5))));
+s=-(DuDx*(1+(1/(x*Pe)))+zi*(u-cpr(round(((t/tou))*(t_n-1)+0.5),round(((x/1))*(l_n-1)+0.5))));%V
 end
 
   
@@ -109,7 +109,7 @@ end
 
 
 function value=initial1(x)
-if x < 1e-04
+if x == 0 
 value=1;
 else 
     value =0;
