@@ -69,15 +69,26 @@ zi=3*Bi*neta*(1-eb)/eb;             % dimensionless group zi
 %     display(error1);
 
 
-figure
+figure(1)
 %plot(t_n,f,'O')
 hold on
 plot(t*L/(v*3600),cb(:,end))
 title('plot of conc');
 xlabel('time (hours)');
-ylabel('C/C0');
+ylabel('Cb');
 ylim([0 1]);
 xlim([0 100]);
+
+figure(2)
+%plot(t_n,f,'O')
+hold on
+plot(exp(:,1),exp(:,2)/c0)
+title('plot of conc');
+xlabel('time (hours)');
+ylabel('Ce/C0');
+ylim([0 1]);
+xlim([0 100]);
+
 
 %--------------------------------------------------------------------------
 
@@ -93,7 +104,7 @@ function [p1,q1,pr,qr]=bc1(x1,u1,xr,ur,t)
 p1=Pe*(1-u1);
 q1=Pe;
 pr=0;
-qr=Pe;
+qr=1;%changed
 end
 
 
@@ -131,11 +142,11 @@ end
 
 
 function value=initial2(x)
-if x < 1e-04
-value=1;
-else 
+%if x < 1e-04
+%value=1;
+%else 
 value =0;
-end
+%end
 end
 
        
