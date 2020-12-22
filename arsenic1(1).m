@@ -1,15 +1,15 @@
-function f=arsenic1 (ini)
+function arsenic1 (ini)
 
 load('expt.mat','exp')
 experi=exp(:,end);                                % y variable
-c0_inlet=5000;                                  % (initial conc in ppm)
-L=8;                                       %input('enter the length of column (m) : ');
-Q_inlet=4.2;                                %input('enter the flowrate (LPD) : ');
+c0_inlet=50;                                  % (initial conc in ppm)
+L=0.1;                                       %input('enter the length of column (m) : ');
+Q_inlet=86.4;                                %input('enter the flowrate (LPD) : '); 1 ml/s
 
 Q=Q_inlet*(10^-3)/(24*3600);    % flow rate in m3/sec
 c0=c0_inlet*(10^-3);            % inlet conc in Kg/m3
 
-tim = 3000;                       % time in hours
+tim = 20000;                       % time in hours
 
 % do not change Dl
 %Dl=3*10^-11;%input('enter the axial dispersion coeff. (m2/s) : ');
@@ -55,7 +55,7 @@ zi=3*Bi*neta*(1-eb)/eb;             % dimensionless group zi
     x=linspace(0,1,l_n);
     t=linspace(0,tou,t_n);
     u3=pdepe(m,@system2,@initial1,@bc1,x,t);
-    cb=u3(:,end,end);
+    cb=u3(:,:,1);
     m1=2;
     for i=1:1:l_n
     cp=pdepe(m1,@system3,@initial2,@bc2,x,t);
@@ -63,31 +63,29 @@ zi=3*Bi*neta*(1-eb)/eb;             % dimensionless group zi
     cpf(:,i)=cpf_1(:,end);
     end
       f=0;
-      for y=1:1:37
+      for y=1:1:exp(:,1)
           f=f+(((experi(y)-cpf(y))/cpf(y))^2);
      end
 %     display(error1);
 
+%surf(x,t,cb)
+%xlabel('x')
+%ylabel('t')
+%zlabel('u(x,t)')
+%view([150 25])
 
 figure(1)
-%plot(t_n,f,'O')
+scatter(exp(:,1),exp(:,2))
 hold on
-plot(t*L/(v*3600),cb(:,end))
-title('plot of conc');
-xlabel('time (hours)');
-ylabel('Cb');
-ylim([0 1]);
-xlim([0 100]);
-
-figure(2)
-%plot(t_n,f,'O')
-hold on
-plot(exp(:,1),exp(:,2)/c0)
-title('plot of conc');
+plot(t*(v*3600)/L,cb(:,end))
+title('Equilubrium ');
 xlabel('time (hours)');
 ylabel('Ce/C0');
 ylim([0 1]);
-xlim([0 100]);
+xlim([0 50]);
+legend('Experimental','Theoretical');
+
+
 
 
 %--------------------------------------------------------------------------
@@ -97,6 +95,7 @@ function [c,b,s]=system2(x,t,u,DuDx)
 c=1;
 b=DuDx/Pe;
 s=-(DuDx*(1+(1/(x*Pe)))+zi*(u-cpr(round(((t/tou))*(t_n-1)+0.5),round(((x/1))*(l_n-1)+0.5))));%V
+
 end
 
   
@@ -149,11 +148,7 @@ value =0;
 %end
 end
 
-       
 end
-
-
-
 
 
     
