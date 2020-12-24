@@ -2,14 +2,14 @@ function arsenic1 (ini)
 
 load('expt.mat','exp')
 experi=exp(:,end);                                % y variable
-c0_inlet=50;                                  % (initial conc in ppm)
-L=0.1;                                       %input('enter the length of column (m) : ');
-Q_inlet=86.4;                                %input('enter the flowrate (LPD) : '); 1 ml/s
+c0_inlet=75;                                  % (initial conc in ppm)
+L=0.055;                                       %input('enter the length of column (m) : ');
+Q_inlet=166.4;                                %input('enter the flowrate (LPD) : '); 1.5 ml/s
 
 Q=Q_inlet*(10^-3)/(24*3600);    % flow rate in m3/sec
 c0=c0_inlet*(10^-3);            % inlet conc in Kg/m3
 
-tim = 20000;                       % time in hours
+tim = 15000;                       % time in hours
 
 % do not change Dl
 %Dl=3*10^-11;%input('enter the axial dispersion coeff. (m2/s) : ');
@@ -25,7 +25,7 @@ Rp=350*(10^-6);                     % particle radius (m)
 v=Q/(3.1416*Rb*Rb*eb);              % velocity (m/s)
 
 tou = tim*v*3600/L;                 % normalised time
-t_n=1500;  % no of divisions of total time
+t_n=15000;  % no of divisions of total time
 l_n=10;
 cpr=ones(t_n,l_n);
 cpf=ones(t_n,l_n);
